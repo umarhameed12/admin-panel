@@ -9,7 +9,7 @@ npm install
 ## Add Env variables
 
 ```base
-rename .env.local to .env
+rename env.example to .env
 ```
 
 ## Run Project
