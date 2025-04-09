@@ -15,16 +15,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { setCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { setUserData } from "@/store/slices/auth-slice/auth-slice";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -49,7 +52,7 @@ export function LoginForm({
         .eq("user_id", sessionData.session.user.id)
         .single();
       setCookie("accessToken", sessionData.session.access_token);
-      setCookie("role", userData.role);
+      dispatch(setUserData({ email: userData.email, role: userData.role }));
       router.push("/dashboard");
     } catch (error: any) {
       setLoading(false);

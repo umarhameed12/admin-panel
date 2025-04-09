@@ -32,7 +32,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { getCookie } from "cookies-next";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const data = {
   user: {
@@ -94,7 +95,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const role = getCookie("role") as string;
+  const userRole = useSelector((state: RootState) => state.auth);
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -113,15 +114,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} role={role} />
+        <NavMain items={data.navMain} role={userRole.role} />
         <NavSecondary
           items={data.navSecondary}
           className="mt-auto"
-          role={role}
+          role={userRole.role}
         />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser email={userRole.email} />
       </SidebarFooter>
     </Sidebar>
   );
