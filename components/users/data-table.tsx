@@ -158,9 +158,8 @@ export function DataTable() {
   async function onSubmit(values: z.infer<typeof userFormSchema>) {
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.admin.createUser({
+      const { data, error } = await supabase.auth.signUp({
         email: values.email,
-        email_confirm: true,
         password: "12345678",
       });
       if (error) throw error;
@@ -178,6 +177,7 @@ export function DataTable() {
         form.reset();
         setOpen(false);
         showSuccess("User added successfully!");
+        getUsers();
       }
     } catch (err: any) {
       showError(err.message || "Something went wrong!");
