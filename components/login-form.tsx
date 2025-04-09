@@ -43,7 +43,13 @@ export function LoginForm({
         setError("Something went wrong! Please try again.");
         return;
       }
+      const { data: userData } = await supabase
+        .from("users")
+        .select("*")
+        .eq("user_id", sessionData.session.user.id)
+        .single();
       setCookie("accessToken", sessionData.session.access_token);
+      setCookie("role", userData.role);
       router.push("/dashboard");
     } catch (error: any) {
       setLoading(false);

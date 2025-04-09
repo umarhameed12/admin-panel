@@ -43,6 +43,7 @@ export function NavUser({
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     deleteCookie("accessToken");
+    deleteCookie("role");
     router.push("/auth/login");
   };
 
@@ -51,7 +52,7 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
+            <SidebarMenuButton 
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
