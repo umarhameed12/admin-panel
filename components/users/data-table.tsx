@@ -135,7 +135,9 @@ export function DataTable() {
       ),
     },
   ];
-  
+
+  const roles: string[] = ["Admin", "Manager", "User", "Operations"];
+
   const table = useReactTable({
     data: usersData,
     columns,
@@ -304,9 +306,11 @@ export function DataTable() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent align="end">
-                              <SelectItem value="Admin">Admin</SelectItem>
-                              <SelectItem value="Manager">Manager</SelectItem>
-                              <SelectItem value="User">User</SelectItem>
+                              {roles.map((item) => (
+                                <SelectItem key={item} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
